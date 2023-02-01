@@ -23,6 +23,8 @@ SOFTWARE.
 from packaging.utils import canonicalize_version
 from packaging.version import Version
 
+from .cymrurecon import CymruRecon  # noqa
+
 # major version
 _maj = 0
 
@@ -53,3 +55,5 @@ legacy_version = (f'{_maj}.{_min}.{_mic}{_rel}{_ser}' if _rel != 'final'
 
 # canonical version
 version = canonicalize_version(Version(legacy_version))
+
+_all_ = ['CymruRecon']
