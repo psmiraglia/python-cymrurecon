@@ -24,7 +24,8 @@ Python library for interacting with Recon REST API.
         password = 's3cr3t'
         with CymruRecon(username=username, password=password) as cli:
             # list all jobs
-            jobs = cli.jobs.list()
+            for job in cli.jobs.list():
+                do_something(job)
 
             # get job details
             job_id = 123456
