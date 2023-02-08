@@ -2,6 +2,7 @@ SOURCES := setup.py \
 	cymrurecon/__init__.py \
 	cymrurecon/cymrurecon.py \
 	cymrurecon/jobs.py \
+	cymrurecon/malware.py \
 	cymrurecon/results.py
 
 default: install

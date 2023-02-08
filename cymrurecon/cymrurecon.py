@@ -26,6 +26,7 @@ import logging
 from restfly.session import APISession
 
 from .jobs import JobsAPIEndpoint
+from .malware import MalwareAPIEndpoint
 from .results import ResultsAPIEndpoint
 
 LOG = logging.getLogger(__name__)
@@ -65,3 +66,7 @@ class CymruRecon(APISession):
     @property
     def results(self):
         return ResultsAPIEndpoint(self)
+
+    @property
+    def malware(self):
+        return MalwareAPIEndpoint(self)
