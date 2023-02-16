@@ -30,7 +30,7 @@ LOG = logging.getLogger(__name__)
 class ResultsAPIEndpoint(APIEndpoint):
     _path = 'results'
 
-    def details(self, query_id, **kwargs):
+    def details(self, query_id, fp, **kwargs):
         params = {}
 
         # format
@@ -43,12 +43,22 @@ class ResultsAPIEndpoint(APIEndpoint):
         if arg and arg in ['flows', 'conversations', 'initiators', 'historic']:
             params['data_variant'] = arg
 
-        # other fields
-        for key in kwargs:
+        # other fields (https://recon.cymru.com/docs/query_types)
+        for key in kwargs.copy():
             arg = kwargs.pop(key, None)
             if arg:
-                params[key] = arg
-        return self._api.get(f'{self._path}/{query_id}', params=params)
+                if isinstance(arg, list):
+                    params[f'{key}[]'] = arg
+                else:
+                    params[key] = arg
+
+        # make query
+        with self._api.get(f'{self._path}/{query_id}', params=params, stream=True) as r:  # noqa
+            r.raise_for_status()
+            n_bytes = 0
+            for chunk in r.iter_content(chunk_size=8192):
+                n_bytes += fp.write(chunk)
+        return n_bytes
 
     def delete(self, query_id, **kwargs):
         return self._api.delete(f'{self._path}/{query_id}')
