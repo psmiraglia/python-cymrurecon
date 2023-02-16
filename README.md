@@ -30,6 +30,14 @@ Python library for interacting with Recon REST API.
             # get job details
             job_id = 123456
             details = cli.jobs.details(job_id)
+            
+            # download query results
+            query_id = 789456
+            f_name = 'results.json'
+            with open(f_name, 'wb') as fp:
+                f_size = cli.results.details(query_id, fp, format='json', data_variant='flows')
+                print(f'File size: {f_size} bytes')
+                fp.close()
 
             # delete job
             job_id = 123456
