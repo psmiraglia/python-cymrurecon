@@ -41,7 +41,11 @@ Python library for interacting with Recon REST API.
 
             # delete job
             job_id = 123456
-            details = cli.jobs.delete(job_id)
+            try:
+                res = cli.jobs.delete(job_id)
+                print(json.dumps(res))
+            except Exception as e:
+                # manage exception
     ~~~
 
 ## References
