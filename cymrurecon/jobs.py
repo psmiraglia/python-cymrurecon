@@ -203,4 +203,8 @@ class JobsAPIEndpoint(APIEndpoint):
         return self._api.get(f'{self._path}/{job_id}', params=params)
 
     def delete(self, job_id, **kwargs):
-        return self._api.delete(f'{self._path}/{job_id}')
+        data = {}
+        with self._api.delete(f'{self._path}/{job_id}') as res:
+            res.raise_for_status()
+            data = res.json()
+        return data
